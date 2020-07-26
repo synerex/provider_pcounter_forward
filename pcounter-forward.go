@@ -29,9 +29,9 @@ var (
 	sxSrcServerAddress string
 	sxDstServerAddress string
 	sxDstClient        *sxutil.SXServiceClient
-	ctexp              *regexp.Regexp
-	flexp              *regexp.Regexp
-	dwexp              *regexp.Regexp
+	ctexp              *regexp.Regexp = nil
+	flexp              *regexp.Regexp = nil
+	dwexp              *regexp.Regexp = nil
 	msgCount           int64
 )
 
@@ -60,15 +60,15 @@ func supplyPCounterCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 		for _, ev := range pc.Data {
 			switch ev.Typ {
 			case "counter":
-				if ctexp.MatchString(pc.DeviceId) {
+				if ctexp != nil && ctexp.MatchString(pc.DeviceId) {
 					evts = append(evts, ev)
 				}
 			case "fillLevel":
-				if flexp.MatchString(pc.DeviceId) {
+				if flexp != nil && flexp.MatchString(pc.DeviceId) {
 					evts = append(evts, ev)
 				}
 			case "dwellTime":
-				if dwexp.MatchString(pc.DeviceId) {
+				if dwexp != nil && dwexp.MatchString(pc.DeviceId) {
 					evts = append(evts, ev)
 				}
 			}
