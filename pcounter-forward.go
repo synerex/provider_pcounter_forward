@@ -74,18 +74,20 @@ func supplyPCounterCallback(clt *sxutil.SXServiceClient, sp *api.Supply) {
 			}
 		}
 		pc.Data = evts
-		out, _ := proto.Marshal(pc)
-		cont := api.Content{Entity: out}
-		smo := sxutil.SupplyOpts{
-			Name:  "PCounter",
-			Cdata: &cont,
-		}
-		_, nerr := sxDstClient.NotifySupply(&smo)
-		if nerr != nil {
-			log.Printf("Send Fail!\n", nerr)
-		} else {
-			msgCount++
-			//						log.Printf("Sent OK! %#v\n", pc)
+		if len(evts) > 0 {
+			out, _ := proto.Marshal(pc)
+			cont := api.Content{Entity: out}
+			smo := sxutil.SupplyOpts{
+				Name:  "PCounter",
+				Cdata: &cont,
+			}
+			_, nerr := sxDstClient.NotifySupply(&smo)
+			if nerr != nil {
+				log.Printf("Send Fail!\n", nerr)
+			} else {
+				msgCount++
+				//						log.Printf("Sent OK! %#v\n", pc)
+			}
 		}
 	}
 }
