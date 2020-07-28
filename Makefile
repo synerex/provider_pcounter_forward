@@ -16,7 +16,7 @@ LDFLAGS="-X github.com/synerex/synerex_sxutil.GitVer=`git describe --tag` -X git
 .PHONY: build 
 build: pcounter-forward
 
-pcounter-store: pcounter-forward.go
+pcounter-forward: pcounter-forward.go
 	$(GOBUILD) -ldflags $(LDFLAGS)
 
 .PHONY: clean
